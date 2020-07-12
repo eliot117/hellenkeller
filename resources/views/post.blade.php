@@ -9,7 +9,7 @@
         <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             <div class="page-heading">
-            <h1>{{$post['title']}}</h1>
+            <h2>{{$post['title']}}</h2>
             <span class="subheading">By {{ $post->user['name'] }}</span>
             </div>
         </div>

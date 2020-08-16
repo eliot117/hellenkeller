@@ -10,9 +10,12 @@
           <li class="nav-item">
             <a class="nav-link" href="/">Inicio</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">Nuestro Colegio</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="/about" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Escolaridad</a>
+                Modelo Educativo</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="/presscolar"><i class="fas fa-pencil-ruler"></i> Presscolar</a>
                 <a class="dropdown-item" href="/primaria"><i class="fas fa-atlas"></i> Primaria</a>
@@ -22,9 +25,11 @@
           <li class="nav-item">
             <a class="nav-link" href="/kinder">Guarderia</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="/about">Misión-Visión</a>
+          <a class="nav-link" href="https://www.santillanaconnect.com/Account/Login/?wtrealm=http%3a%2f%2flms30.uno-internacional.com%2flogin%2funo%2f&wreply=https%3a%2f%2flms30.uno-internacional.com%2flogin%2fsso%2floginconnect">Plataforma UNO</a>
           </li>
+
           <!-- Authentication Links -->
           @guest
                <li class="nav-item">

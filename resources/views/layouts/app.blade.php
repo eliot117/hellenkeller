@@ -15,7 +15,6 @@
 
   <!-- Bootstrap core CSS -->
   <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
 
   <!-- Custom fonts for this template -->
   <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -27,6 +26,7 @@
   <!-- Custom styles for this template -->
   <link href="{{ asset('css/clean-blog.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 

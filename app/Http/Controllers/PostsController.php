@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PostsController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('verified');
     }
 
     public function index()
@@ -50,7 +52,7 @@ class PostsController extends Controller
         $post->user_id   = $user->id;
         $post->save();
 
-        return redirect('posts');
+        return redirect('posts')->withSuccess('Noticia Creada Correctamente');;
     }
 
     public function show($id)
@@ -87,9 +89,10 @@ class PostsController extends Controller
         $post->title     = request('title');
         $post->content   = request('content');
         $post->image_url = $newFileName;
+
         $post->save();
 
-        return redirect('posts');
+        return redirect('posts')->withInfo('Noticia Actualizada Correctamente');
     }
 
     public function destroy(Request $request)
@@ -102,6 +105,6 @@ class PostsController extends Controller
             unlink($oldImage);
         }
         $post->delete();
-        return redirect('posts');
+        return redirect('posts')->withToastError('Eliminado correctamente');
     }
 }

@@ -1,9 +1,11 @@
 @extends('admin.layouts.dashboard')
 
-@section('content')
-<h1>Crear un Rol de Usuario</h1>
+@section('titulo_page')
+Crear un Rol de Usuario
+@endsection
 
-@if($errors->any())
+@section('titulo')
+    @if($errors->any())
     <div class="alert alert-danger" role="alert">
         <ul>
             @foreach($errors->all() as $error)
@@ -11,8 +13,10 @@
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
+@endsection
 
+@section('content')
 <form method="POST" action="{{ route('roles.store') }}">
     @csrf
     <div class="form-group">

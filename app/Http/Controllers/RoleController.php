@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Role;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RoleController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('verified');
     }
 
     public function index()
     {
         $roles= Role::all();
-        return view('admin.roles.index',['roles' =>$roles]);
+        return view('admin.roles.index',['roles' => $roles]);
     }
 
     public function create()
@@ -28,8 +30,7 @@ class RoleController extends Controller
         $role = new Role();
         $role->name = request('name');
         $role->save();
-
-        return redirect('roles.index');
+        return redirect()->route('roles.index')->withSuccess('Rol de Usuario creado con exito');
     }
 
     public function show($id)
@@ -49,6 +50,7 @@ class RoleController extends Controller
 
     public function destroy($id)
     {
-        //
+        $roles = Role::findOrFail($id)->delete();
+        return redirect()->route('roles.index')->withToastError('Eliminado correctamente');
     }
 }

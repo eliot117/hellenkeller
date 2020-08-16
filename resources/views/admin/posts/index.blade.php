@@ -1,62 +1,59 @@
 @extends('admin.layouts.dashboard')
 
-@section('content')
-<!-- DataTables Example -->
+@section('titulo_page')
+Bienvenido a Lista de Noticias
+@endsection
 
+@section('titulo')
 <div class="row py-lg-2">
     <div class="col-md-6">
-        <h2>Lista de Noticias</h2>
+        <h4><ion-icon name="newspaper-outline"></ion-icon> Lista de Noticias</h4>
     </div>
     <div class="col-md-6">
-        <a href="{{ route('posts.create') }}" class="btn btn-primary float-md-right" role="button" aria-pressed="true">Crear Nueva Noticia</a>
+        <a href="{{ route('posts.create') }}" class="btn btn-success float-md-right" role="button" aria-pressed="true">Crear Nueva Noticia</a>
     </div>
 </div>
+@endsection
 
-<div class="card mb-3">
-    <div class="card-header">
-        <i class="fas fa-newspaper"></i>
-      Lista de Noticias</div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Titulo</th>
-              <th>Contenido</th>
-              <th>Imagen</th>
-              <th>User</th>
-              <th>Editar</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th>Id</th>
-              <th>Titulo</th>
-              <th>Contenido</th>
-              <th>Imagen</th>
-              <th>User</th>
-              <th>Editar</th>
-            </tr>
-          </tfoot>
-          <tbody>
-            @foreach($posts as $post)
-            <tr>
-              <td>{{ $post->id }}</td>
-              <td>{{ $post->title }}</td>
-              <td>{!! getShorterString($post['content'], 50) !!}</td>
-              <td><img src="{{ asset('/storage/notice_images/'.$post['image_url']) }}" alt="{{ $post['image_url'] }}" width="100"></td>
-              <td>{{ $post->user['name'] }}</td>
-              <td>
-                <a href="{{ route('posts.edit',$post->id) }}"><i class="fa fa-edit"></i></a>
-                <a href="#"  data-toggle="modal" data-target="#deleteModal" data-postid="{{ $post->id }}"><i class="fas fa-trash-alt"></i></a>
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
+@section('content')
+<div class="table-responsive-md">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Titulo</th>
+          <th>Contenido</th>
+          <th>Imagen</th>
+          <th>User</th>
+          <th>Editar</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>Id</th>
+          <th>Titulo</th>
+          <th>Contenido</th>
+          <th>Imagen</th>
+          <th>User</th>
+          <th>Editar</th>
+        </tr>
+      </tfoot>
+      <tbody>
+        @foreach($posts as $post)
+        <tr>
+          <td>{{ $post->id }}</td>
+          <td>{{ $post->title }}</td>
+          <td>{!! getShorterString($post['content'], 50) !!}</td>
+          <td><img src="{{ asset('/storage/notice_images/'.$post['image_url']) }}" alt="{{ $post['image_url'] }}" width="100"></td>
+          <td>{{ str_replace(array('[' ,']' ,'"'),' ', $post->user()->pluck('name')) }}</td>
+          <td>
+            <a href="{{ route('posts.edit',$post->id) }}"><i class="fa fa-edit"></i></a>
+            <a href="#"  data-toggle="modal" data-target="#deleteModal" data-postid="{{ $post->id }}"><i class="fas fa-trash-alt"></i></a>
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
 
   <!-- delete Modal-->
@@ -71,7 +68,7 @@
         </div>
         <div class="modal-body">Seleccione "eliminar" si realmente desea eliminar esta publicación.</div>
         <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" type="button" data-dismiss="modal">Cancelar</button>
         @if(empty($post))
             unset($post);
         @else
@@ -79,11 +76,10 @@
             @method('DELETE')
             @csrf
             <input type="hidden" id="post_id" name="post_id" value="">
-            <a class="btn btn-primary" onclick="$(this).closest('form').submit();">Eliminar</a>
+            <a style="color: white;" class="btn btn-danger" onclick="$(this).closest('form').submit();">Eliminar</a>
         </form>
         @endif
         </div>
-    </div>
     </div>
   </div>
 @endsection

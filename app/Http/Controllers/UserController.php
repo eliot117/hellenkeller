@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Role;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -45,7 +46,7 @@ class UserController extends Controller
 
         $users->asignarRol($request->get('rol'));
 
-        return redirect('users')->with('Usuario Agregado');
+        return redirect('users')->withSuccess('Usuario Creado Correctamente');
     }
 
     public function show($id)
@@ -72,28 +73,41 @@ class UserController extends Controller
         ]);
 
         $users = User::findOrFail($id);
+
         $users->name     = $request->get('name');
         $users->lastname = $request->get('lastname');
         $users->email    = $request->get('email');
 
-        if($request->hasFile('avatar'))
+        $file = $request->get('avatar');
+
+        if($file != null or $request->hasFile('avatar'))
         {
-            $file = $request->file('avatar');
-            $name = time().$file->getClientOriginalName();
-            $file->move(public_path('avatar/'), $name);
+            $fileNameWithTheExtension = request('avatar')->getClientOriginalName();
+            $fileName = pathinfo($fileNameWithTheExtension, PATHINFO_FILENAME);
+            $extension = request('avatar')->getClientOriginalExtension();
+            $newFileName = $fileName . '_' . time() . '.' . $extension;
+            $path = request('avatar')->storeAs('public/avatar', $newFileName);
+            $users->avatar   = $newFileName;
+        }
+        else
+        {
+            unset($users->avatar);
         }
 
         $pass = $request->get('password');
+
         if($pass != null )
         {
             $users->password= bcrypt($request->get('password'));
-        } else
+        }
+        else
         {
             unset($users->password);
         }
 
         $role = $users->roles;
-        if (count($role) > 0)
+
+        if(count($role) > 0)
         {
             $role_id = $role[0]->id;
             User::find($id)->roles()->updateExistingPivot($role_id,['role_id' => $request->get('rol')]);
@@ -105,21 +119,21 @@ class UserController extends Controller
 
         $users->update();
 
-        return redirect('users');
+        return redirect('users')->withInfoAlert('Datos Actualizados Correctamente');
     }
 
     public function destroy($id)
     {
         $users = User::findOrFail($id);
 
-       /* $oldImage = public_path() . '/avatar/'. $users->avatar;
+        $oldImage = public_path() . '/storage/avatar/'. $users->avatar;
 
-        if(file_exists($oldImage)){
-            //delete the image
+        if(file_exists($oldImage))
+        {
             unlink($oldImage);
-        }*/
+        }
 
         $users->delete();
-        return redirect('users')->with('Eliminado');
+        return redirect('users')->withToastError('Eliminado correctamente');
     }
 }

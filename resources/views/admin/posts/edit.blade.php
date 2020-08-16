@@ -1,18 +1,22 @@
 @extends('admin.layouts.dashboard')
 
+@section('titulo_page')
+Editar una Noticia
+@endsection
+
+@section('titulo')
+    @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+@endsection
+
 @section('content')
-<h1>Editar una Noticia</h1>
-
-@if($errors->any())
-    <div class="alert alert-danger" role="alert">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 <form method="POST" action="{{ route('posts.update',$post->id) }}" enctype="multipart/form-data">
     @method('PUT')
     @csrf

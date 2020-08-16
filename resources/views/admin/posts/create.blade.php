@@ -1,19 +1,14 @@
 @extends('admin.layouts.dashboard')
 
+@section('titulo_page')
+Crear una nueva Noticia
+@endsection
+
+@section('titulo')
+   
+@endsection
+
 @section('content')
-
-<h1>Crear una nueva Noticia</h1>
-
-@if($errors->any())
-    <div class="alert alert-danger" role="alert">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
     @csrf
 
@@ -27,7 +22,7 @@
     </div>
     <div class="form-group">
         <label for="content">Insertar Contenido</label>
-        <textarea name="content" id="content">{{ old('content') }}</textarea>
+        <textarea name="content" id="editor">{{ old('content') }}</textarea>
     </div>
 
     <div class="form-group pt-2">
@@ -37,6 +32,8 @@
 </form>
 
 <script>
-    CKEDITOR.replace( 'content' );
+    var editor = CKEDITOR.replace( 'editor' );
+    CKFinder.setupCKEditor(editor);
 </script>
+
 @endsection
